@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Roofing Cost Estimator - UMMUMED ENTERPRISES</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 500px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #004080;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      background-color: #004080;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #003366;
+    }
+
+    .output {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      background-color: #e6f0ff;
+      border-radius: 5px;
+    }
+
+    .output span {
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Roofing Cost Estimator<br><small>UMMUMED ENTERPRISES</small></h2>
+
+    <label for="length">Length (meters):</label>
+    <input type="number" id="length" placeholder="e.g. 12">
+
+    <label for="width">Width (meters):</label>
+    <input type="number" id="width" placeholder="e.g. 9">
+
+    <label for="material">Choose Roofing Material:</label>
+    <select id="material">
+      <option value="6000">Rooftiles - ₦6000/m²</option>
+      <option value="11500">Aluminum 0.55 - ₦11500/m²</option>
+      <option value="8500">Romanian rooftiles - ₦8500/m²</option>
+      <option value="5500">Suspended ceiling - ₦5500/m²</option>
+    </select>
+
+    <label for="location">Project Location:</label>
+    <select id="location">
+      <option value="Kontagora">Kontagora (₦300/m²)</option>
+      <option value="Local">Nearby Towns (₦500/m²)</option>
+      <option value="Far">Distant Locations (₦1000/m²)</option>
+    </select>
+
+    <button onclick="calculateCost()">Estimate Cost</button>
+
+    <div class="output" id="result"></div>
+  </div>
+
+  <script>
+    function calculateCost() {
+      const length = parseFloat(document.getElementById('length').value);
+      const width = parseFloat(document.getElementById('width').value);
+      const materialCost = parseFloat(document.getElementById('material').value);
+      const location = document.getElementById('location').value;
+
+      if (isNaN(length) || isNaN(width)) {
+        document.getElementById('result').innerHTML = "<span>Please enter valid dimensions.</span>";
+        return;
+      }
+
+      const area = length * width;
+      const materialTotal = area * materialCost;
+
+      let laborRate;
+      switch (location) {
+        case 'Kontagora': laborRate = 300; break;
+        case 'Local': laborRate = 500; break;
+        case 'Far': laborRate = 1000; break;
+        default: laborRate = 500;
+      }
+
+      const laborCost = area * laborRate;
+      const totalCost = materialTotal + laborCost;
+
+      document.getElementById('result').innerHTML = `
+        📍 <strong>Company:</strong> UMMUMED ENTERPRISES<br>
+        🏢 <strong>Location:</strong> Kontagora, Niger State, Nigeria<br>
+        📐 <strong>Total Area:</strong> ${area} m²<br>
+        🧱 <strong>Material Cost:</strong> ₦${materialTotal.toLocaleString()}<br>
+        👷 <strong>Installation Cost:</strong> ₦${laborCost.toLocaleString()}<br>
+        💰 <strong>Total Estimated Cost:</strong> <span>₦${totalCost.toLocaleString()}</span>
+      `;
+    }
+  </script>
+
+</body>
+</html>
