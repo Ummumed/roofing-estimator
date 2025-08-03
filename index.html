@@ -14,7 +14,7 @@
     }
 
     .container {
-      background: white;
+      background: light green;
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
@@ -47,7 +47,7 @@
       width: 100%;
       padding: 10px;
       background-color: #004080;
-      color: white;
+      color: light green;
       border: none;
       border-radius: 5px;
       font-size: 16px;
@@ -70,6 +70,15 @@
       color: green;
       font-weight: bold;
     }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 14px;
+      text-align: center;
+      color: #333;
+      border-top: 1px dashed #ccc;
+      padding-top: 15px;
+    }
   </style>
 </head>
 <body>
@@ -86,21 +95,30 @@
     <label for="material">Choose Roofing Material:</label>
     <select id="material">
       <option value="6000">Rooftiles - ₦6000/m²</option>
-      <option value="11500">Aluminum 0.55 - ₦11500/m²</option>
+      <option value="11500">Longspan Aluminum 0.55 Complete - ₦11500/m²</option>
       <option value="8500">Romanian rooftiles - ₦8500/m²</option>
-      <option value="5500">Suspended ceiling - ₦5500/m²</option>
+      <option value="12000">Steptiles and Metcoppo Aluminum 0.55 Complete- ₦12000/m²</option>
+      <option value="8000">Longspan Aluminum 0.55 Normal-₦8000/m²</option>
+      <option value="8500">Steptiles and Metcoppo Aminum 0.55 Normal-₦8500/option>
     </select>
 
     <label for="location">Project Location:</label>
     <select id="location">
-      <option value="Kontagora">Kontagora (₦300/m²)</option>
-      <option value="Local">Nearby Towns (₦500/m²)</option>
+      <option value="Kontagora">Kontagora (₦600/m²)</option>
+      <option value="Local">Nearby Towns (₦700/m²)</option>
       <option value="Far">Distant Locations (₦1000/m²)</option>
     </select>
 
     <button onclick="calculateCost()">Estimate Cost</button>
+    <button onclick="window.print()">🖨️ Print Estimate</button>
 
     <div class="output" id="result"></div>
+
+    <div class="footer">
+      <strong>UMMUMED ENTERPRISES</strong><br>
+      Kontagora, Niger State, Nigeria<br>
+      📞 08164316651 , 09048350686| ✉️ ummumed001@gmail.com
+    </div>
   </div>
 
   <script>
@@ -120,8 +138,8 @@
 
       let laborRate;
       switch (location) {
-        case 'Kontagora': laborRate = 300; break;
-        case 'Local': laborRate = 500; break;
+        case 'Kontagora': laborRate = 600; break;
+        case 'Local': laborRate = 700; break;
         case 'Far': laborRate = 1000; break;
         default: laborRate = 500;
       }
