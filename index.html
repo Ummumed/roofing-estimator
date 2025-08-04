@@ -14,12 +14,12 @@
     }
 
     .container {
-      background: light green;
+      background: lightgreen;
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
       width: 90%;
-      max-width: 500px;
+      max-width: 600px;
     }
 
     h2 {
@@ -47,7 +47,7 @@
       width: 100%;
       padding: 10px;
       background-color: #004080;
-      color: light green;
+      color: white;
       border: none;
       border-radius: 5px;
       font-size: 16px;
@@ -84,23 +84,34 @@
 <body>
 
   <div class="container">
-    <h2>Roofing Cost Estimator<br><small>UMMUMED ENTERPRISES</small></h2>
+    <h2>Roofing Cost Estimator<br><small style="font-size: 14px; color: #333;">UMMUMED ENTERPRISES</small></h2>
 
     <label for="length">Length (meters):</label>
-    <input type="number" id="length" placeholder="e.g. 12">
+    <input type="number" id="length" placeholder="e.g. 12" min="0">
 
     <label for="width">Width (meters):</label>
-    <input type="number" id="width" placeholder="e.g. 9">
+    <input type="number" id="width" placeholder="e.g. 9" min="0">
 
-    <label for="material">Choose Roofing Material:</label>
-    <select id="material">
-      <option value="6000">Rooftiles - ₦6000/m²</option>
-      <option value="11500">Longspan Aluminum 0.55 Complete - ₦11500/m²</option>
-      <option value="8500">Romanian rooftiles - ₦8500/m²</option>
-      <option value="12000">Steptiles and Metcoppo Aluminum 0.55 Complete- ₦12000/m²</option>
-      <option value="8000">Longspan Aluminum 0.55 Normal-₦8000/m²</option>
-      <option value="8500">Steptiles and Metcoppo Aminum 0.55 Normal-₦8500/option>
+    <label for="estimateType">Select Estimate Type:</label>
+    <select id="estimateType">
+      <option value="roofing">Roofing</option>
+      <option value="ceiling">Suspended Ceiling</option>
+      <option value="parapet">Aluminum Parapet</option>
     </select>
+
+    <div id="roofingOptions">
+      <label for="material">Choose Roofing Material:</label>
+      <select id="material">
+        <option value="6000">Rooftiles - ₦6000/m²</option>
+        <option value="8500">Romanian rooftiles - ₦8500/m²</option>
+        <option value="8000">Longspan Aluminum 0.55 Normal - ₦8000/m²</option>
+        <option value="11500">Longspan Aluminum 0.55 Complete - ₦11500/m²</option>
+        <option value="9500">Steptiles and Metcoppo Aluminum 0.55 Normal - ₦9500/m²</option>
+        <option value="13000">Steptiles and Metcoppo Aluminum 0.55 Complete - ₦13000/m²</option>
+        <option value="11000">Cameroon Rooftiles - ₦11000/m²</option>
+        <option value="5500">Stone Coated Roofing - ₦5500/m²</option>
+      </select>
+    </div>
 
     <label for="location">Project Location:</label>
     <select id="location">
@@ -117,26 +128,33 @@
     <div class="footer">
       <strong>UMMUMED ENTERPRISES</strong><br>
       Kontagora, Niger State, Nigeria<br>
-      📞 08164316651 , 09048350686| ✉️ ummumed001@gmail.com
+      📞 08164316651 , 09048350686 | ✉️ ummumed001@gmail.com
     </div>
   </div>
 
   <script>
+    const estimateType = document.getElementById('estimateType');
+    const roofingOptions = document.getElementById('roofingOptions');
+
+    estimateType.addEventListener('change', () => {
+      roofingOptions.style.display = estimateType.value === 'roofing' ? 'block' : 'none';
+    });
+
     function calculateCost() {
       const length = parseFloat(document.getElementById('length').value);
       const width = parseFloat(document.getElementById('width').value);
-      const materialCost = parseFloat(document.getElementById('material').value);
       const location = document.getElementById('location').value;
+      const estimate = document.getElementById('estimateType').value;
 
       if (isNaN(length) || isNaN(width)) {
         document.getElementById('result').innerHTML = "<span>Please enter valid dimensions.</span>";
         return;
       }
 
-      const area = length * width;
-      const materialTotal = area * materialCost;
-
+      let area = length * width;
+      let perimeter = 2 * (length + width);
       let laborRate;
+
       switch (location) {
         case 'Kontagora': laborRate = 600; break;
         case 'Local': laborRate = 700; break;
@@ -144,15 +162,51 @@
         default: laborRate = 500;
       }
 
-      const laborCost = area * laborRate;
-      const totalCost = materialTotal + laborCost;
+      let materialCost = 0;
+      let totalMaterial = 0;
+      let totalLabor = 0;
+      let totalCost = 0;
+      let details = "";
+
+      if (estimate === 'roofing') {
+        materialCost = parseFloat(document.getElementById('material').value);
+        totalMaterial = area * materialCost;
+        totalLabor = area * laborRate;
+        totalCost = totalMaterial + totalLabor;
+
+        details = `
+          📐 <strong>Total Roof Area:</strong> ${area} m²<br>
+          🧱 <strong>Material Cost:</strong> ₦${totalMaterial.toLocaleString()}<br>
+          👷 <strong>Installation Cost:</strong> ₦${totalLabor.toLocaleString()}<br>
+        `;
+      } else if (estimate === 'ceiling') {
+        materialCost = 5500;
+        totalMaterial = area * materialCost;
+        totalLabor = area * laborRate;
+        totalCost = totalMaterial + totalLabor;
+
+        details = `
+          📐 <strong>Ceiling Area:</strong> ${area} m²<br>
+          🪵 <strong>Ceiling Material (₦5500/m²):</strong> ₦${totalMaterial.toLocaleString()}<br>
+          👷 <strong>Installation Cost:</strong> ₦${totalLabor.toLocaleString()}<br>
+        `;
+      } else if (estimate === 'parapet') {
+        materialCost = 7000;
+        totalMaterial = perimeter * materialCost;
+        totalLabor = perimeter * laborRate;
+        totalCost = totalMaterial + totalLabor;
+
+        details = `
+          📏 <strong>Building Perimeter:</strong> ${perimeter} m<br>
+          🪟 <strong>Parapet Material (₦7000/m):</strong> ₦${totalMaterial.toLocaleString()}<br>
+          👷 <strong>Installation Cost:</strong> ₦${totalLabor.toLocaleString()}<br>
+        `;
+      }
 
       document.getElementById('result').innerHTML = `
         📍 <strong>Company:</strong> UMMUMED ENTERPRISES<br>
         🏢 <strong>Location:</strong> Kontagora, Niger State, Nigeria<br>
-        📐 <strong>Total Area:</strong> ${area} m²<br>
-        🧱 <strong>Material Cost:</strong> ₦${materialTotal.toLocaleString()}<br>
-        👷 <strong>Installation Cost:</strong> ₦${laborCost.toLocaleString()}<br>
+        ${details}
         💰 <strong>Total Estimated Cost:</strong> <span>₦${totalCost.toLocaleString()}</span>
       `;
     }
