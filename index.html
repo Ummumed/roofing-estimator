@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ummumed Enterprises â€” Roofing Estimator</title>
+  <title>Ummumed Enterprises — Roofing Estimator</title>
   <style>
     :root {
       --deep-blue: #0b3b66;
@@ -131,7 +131,7 @@
     <img src="ummed.jpg" alt="Ummumed Logo" id="logoImg">
     <div>
       <h1>Ummumed Enterprises</h1>
-      <p>Roofing Cost Estimator â€” Professional Quotations</p>
+      <p>Roofing Cost Estimator — Professional Quotations</p>
     </div>
   </div>
 </header>
@@ -177,12 +177,12 @@
         </div>
 
         <div>
-          <label for="price">Material Price per mÂ² (â‚¦)</label>
+          <label for="price">Material Price per m² (₦)</label>
           <input id="price" type="number" step="0.01" min="0" placeholder="e.g. 3500.00" required>
         </div>
 
         <div class="full">
-          <label for="workmanship">Workmanship Cost per mÂ² (â‚¦) â€” editable</label>
+          <label for="workmanship">Workmanship Cost per m² (₦) — editable</label>
           <input id="workmanship" type="number" step="0.01" min="0" placeholder="e.g. 1500.00" required>
         </div>
 
@@ -212,7 +212,7 @@
 </main>
 
 <footer>
-  ðŸ“ž 08164316651  &nbsp;|&nbsp; ðŸ“§ umarmuhammed2548@gmail.com
+  📞 08164316651  &nbsp;|&nbsp; 📧 umarmuhammed2548@gmail.com
 </footer>
 
 <!-- jsPDF + autotable -->
@@ -296,21 +296,21 @@
           <div style="font-size:13px; color:#334155">Date: <strong>${calcData.date.toLocaleDateString()}</strong></div>
         </div>
         <div style="text-align:right">
-          <div style="font-size:14px; color:${'var(--deep-blue)'}"><strong style="font-size:16px">Total: â‚¦${formatN(calcData.totalCost)}</strong></div>
+          <div style="font-size:14px; color:${'var(--deep-blue)'}"><strong style="font-size:16px">Total: ₦${formatN(calcData.totalCost)}</strong></div>
         </div>
       </div>
 
       <div class="summary-row"><div>Roof Type</div><div><strong>${roofType}</strong></div></div>
       <div class="summary-row"><div>Material</div><div>${material}</div></div>
-      <div class="summary-row"><div>Total Roof Area (mÂ²)</div><div>${calcData.area.toFixed(2)} mÂ²</div></div>
-      <div class="summary-row"><div>Material Unit Price (â‚¦/mÂ²)</div><div>â‚¦${formatN(calcData.price)}</div></div>
-      <div class="summary-row"><div>Material Cost (â‚¦)</div><div>â‚¦${formatN(calcData.materialCost)}</div></div>
-      <div class="summary-row"><div>Workmanship Rate (â‚¦/mÂ²)</div><div>â‚¦${formatN(calcData.workmanshipRate)}</div></div>
-      <div class="summary-row"><div>Workmanship Cost (â‚¦)</div><div>â‚¦${formatN(calcData.workmanshipCost)}</div></div>
+      <div class="summary-row"><div>Total Roof Area (m²)</div><div>${calcData.area.toFixed(2)} m²</div></div>
+      <div class="summary-row"><div>Material Unit Price (₦/m²)</div><div>₦${formatN(calcData.price)}</div></div>
+      <div class="summary-row"><div>Material Cost (₦)</div><div>₦${formatN(calcData.materialCost)}</div></div>
+      <div class="summary-row"><div>Workmanship Rate (₦/m²)</div><div>₦${formatN(calcData.workmanshipRate)}</div></div>
+      <div class="summary-row"><div>Workmanship Cost (₦)</div><div>₦${formatN(calcData.workmanshipCost)}</div></div>
       <div style="margin-top:8px; padding-top:8px; border-top:1px solid #eef3fb;">
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <div style="font-weight:700">Grand Total</div>
-          <div style="font-weight:800; font-size:18px; color:var(--deep-blue)">â‚¦${formatN(calcData.totalCost)}</div>
+          <div style="font-weight:800; font-size:18px; color:var(--deep-blue)">₦${formatN(calcData.totalCost)}</div>
         </div>
       </div>
     `;
@@ -334,10 +334,10 @@
       `Date: ${calcData.date.toLocaleDateString()}`,
       `Roof Type: ${calcData.roofType}`,
       `Material: ${calcData.material}`,
-      `Area (mÂ²): ${calcData.area.toFixed(2)}`,
-      `Material Cost: â‚¦${formatN(calcData.materialCost)}`,
-      `Workmanship Cost: â‚¦${formatN(calcData.workmanshipCost)}`,
-      `Total: â‚¦${formatN(calcData.totalCost)}`
+      `Area (m²): ${calcData.area.toFixed(2)}`,
+      `Material Cost: ₦${formatN(calcData.materialCost)}`,
+      `Workmanship Cost: ₦${formatN(calcData.workmanshipCost)}`,
+      `Total: ₦${formatN(calcData.totalCost)}`
     ].join('\n');
     navigator.clipboard?.writeText(txt).then(()=> alert('Summary copied to clipboard.'));
   });
@@ -372,7 +372,7 @@
       doc.text(`Quotation No: ${calcData.quotationNo}`, leftMargin, 100);
       doc.text(`Date: ${calcData.date.toLocaleDateString()}`, leftMargin + 220, 100);
       doc.setFontSize(10);
-      doc.text('ðŸ“ž 08164316651   |   ðŸ“§ umarmuhammed2548@gmail.com', leftMargin, 118);
+      doc.text('📞 08164316651   |   📧 umarmuhammed2548@gmail.com', leftMargin, 118);
 
       // horizontal line
       doc.setLineWidth(0.5);
@@ -381,9 +381,9 @@
       // Table using autotable
       const tableTop = 150;
       doc.autoTable({
-        head: [['Description', 'Unit Price (â‚¦)', 'Quantity (mÂ²)', 'Amount (â‚¦)']],
+        head: [['Description', 'Unit Price (₦)', 'Quantity (m²)', 'Amount (₦)']],
         body: [
-          [`${calcData.material} â€” ${calcData.roofType}`, formatN(calcData.price), calcData.area.toFixed(2), formatN(calcData.materialCost)],
+          [`${calcData.material} — ${calcData.roofType}`, formatN(calcData.price), calcData.area.toFixed(2), formatN(calcData.materialCost)],
           ['Workmanship', formatN(calcData.workmanshipRate), calcData.area.toFixed(2), formatN(calcData.workmanshipCost)]
         ],
         startY: tableTop,
@@ -405,7 +405,7 @@
       doc.text('Grand Total:', leftMargin, finalY + 6);
       doc.setFontSize(14);
       doc.setTextColor(11,59,102);
-      doc.text(`â‚¦ ${formatN(calcData.totalCost)}`, pageWidth - leftMargin - 90, finalY + 6, { align: 'right' });
+      doc.text(`₦ ${formatN(calcData.totalCost)}`, pageWidth - leftMargin - 90, finalY + 6, { align: 'right' });
 
       // Footer note / signature
       doc.setDrawColor(220);
@@ -431,15 +431,15 @@
       doc.text('Roofing Cost Quotation', leftMargin, 82);
       doc.text(`Quotation No: ${calcData.quotationNo}`, leftMargin, 100);
       doc.text(`Date: ${calcData.date.toLocaleDateString()}`, leftMargin + 220, 100);
-      doc.text('ðŸ“ž 08164316651   |   ðŸ“§ umarmuhammed2548@gmail.com', leftMargin, 118);
+      doc.text('📞 08164316651   |   📧 umarmuhammed2548@gmail.com', leftMargin, 118);
 
       doc.setLineWidth(0.5);
       doc.line(leftMargin, 132, pageWidth - leftMargin, 132);
 
       doc.autoTable({
-        head: [['Description', 'Unit Price (â‚¦)', 'Quantity (mÂ²)', 'Amount (â‚¦)']],
+        head: [['Description', 'Unit Price (₦)', 'Quantity (m²)', 'Amount (₦)']],
         body: [
-          [`${calcData.material} â€” ${calcData.roofType}`, formatN(calcData.price), calcData.area.toFixed(2), formatN(calcData.materialCost)],
+          [`${calcData.material} — ${calcData.roofType}`, formatN(calcData.price), calcData.area.toFixed(2), formatN(calcData.materialCost)],
           ['Workmanship', formatN(calcData.workmanshipRate), calcData.area.toFixed(2), formatN(calcData.workmanshipCost)]
         ],
         startY: 150,
@@ -452,7 +452,7 @@
       doc.text('Grand Total:', leftMargin, finalY + 6);
       doc.setFontSize(14);
       doc.setTextColor(11,59,102);
-      doc.text(`â‚¦ ${formatN(calcData.totalCost)}`, pageWidth - leftMargin - 90, finalY + 6, { align: 'right' });
+      doc.text(`₦ ${formatN(calcData.totalCost)}`, pageWidth - leftMargin - 90, finalY + 6, { align: 'right' });
 
       doc.save(`${calcData.quotationNo}_Ummumed_Quotation.pdf`);
     };
