@@ -1,216 +1,462 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Roofing Cost Estimator - UMMUMED ENTERPRISES</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ummumed Enterprises â€” Roofing Estimator</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f2f2f2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
+    :root {
+      --deep-blue: #0b3b66;
+      --accent-gold: #d4af37;
+      --muted: #f4f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --success: #10b981;
+    }
+    * { box-sizing: border-box; }
+    body{
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      margin:0;
+      background: linear-gradient(180deg, var(--muted), #eef6ff);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
     }
 
-    .container {
-      background: lightgreen;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-      width: 90%;
-      max-width: 600px;
+    header{
+      background: linear-gradient(90deg, var(--deep-blue), #0a2b4a);
+      color:white;
+      padding:22px 14px;
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    .brand {
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .brand img{
+      width:84px;
+      height:84px;
+      object-fit:contain;
+      border-radius:8px;
+      background:rgba(255,255,255,0.06);
+      padding:6px;
+    }
+    .brand h1 {
+      margin:0;
+      font-size:20px;
+      letter-spacing:0.4px;
+    }
+    .brand p { margin:0; opacity:0.92; font-size:13px; }
+
+    main{
+      max-width:980px;
+      margin:20px auto;
+      padding:18px;
+    }
+    .card{
+      background:var(--card);
+      border-radius:12px;
+      box-shadow:0 6px 20px rgba(8,30,63,0.08);
+      padding:18px;
+      margin-bottom:14px;
     }
 
-    h2 {
-      text-align: center;
-      color: #004080;
-      margin-bottom: 20px;
+    .grid {
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    label { display:block; font-weight:600; font-size:13px; margin-bottom:6px; }
+    input[type="number"], select {
+      width:100%;
+      padding:10px 12px;
+      border-radius:8px;
+      border:1px solid #dfe7f2;
+      font-size:14px;
+      background:#fff;
+    }
+    .full { grid-column: 1 / -1; }
+
+    .controls {
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    button.primary {
+      background:var(--deep-blue);
+      color:white;
+      border:0;
+      padding:10px 14px;
+      border-radius:8px;
+      font-weight:700;
+      cursor:pointer;
+    }
+    button.ghost {
+      background:transparent;
+      border:1px solid #c9d9f2;
+      padding:10px 14px;
+      border-radius:8px;
+      cursor:pointer;
     }
 
-    label {
-      font-weight: bold;
-      margin-top: 10px;
-      display: block;
+    #resultBox { display:none; margin-top:12px; }
+    .summary-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px dashed #eef3fb; }
+    .summary-row strong { font-weight:700; }
+
+    footer{
+      text-align:center;
+      padding:12px 8px;
+      color:white;
+      background: linear-gradient(90deg, #07324a, #042036);
+      margin-top:18px;
+      font-size:14px;
     }
 
-    input, select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 10px;
-      background-color: #004080;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #003366;
-    }
-
-    .output {
-      margin-top: 20px;
-      padding: 15px;
-      border: 1px solid #ccc;
-      background-color: #e6f0ff;
-      border-radius: 5px;
-    }
-
-    .output span {
-      color: green;
-      font-weight: bold;
-    }
-
-    .footer {
-      margin-top: 30px;
-      font-size: 14px;
-      text-align: center;
-      color: #333;
-      border-top: 1px dashed #ccc;
-      padding-top: 15px;
+    @media(max-width:760px){
+      .grid { grid-template-columns: 1fr; }
+      .brand h1{ font-size:18px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h2>Roofing Cost Estimator<br><small style="font-size: 14px; color: #333;">UMMUMED ENTERPRISES</small></h2>
-
-    <label for="length">Length (meters):</label>
-    <input type="number" id="length" placeholder="e.g. 12" min="0">
-
-    <label for="width">Width (meters):</label>
-    <input type="number" id="width" placeholder="e.g. 9" min="0">
-
-    <label for="estimateType">Select Estimate Type:</label>
-    <select id="estimateType">
-      <option value="roofing">Roofing</option>
-      <option value="ceiling">Suspended Ceiling</option>
-      <option value="parapet">Aluminum Parapet</option>
-    </select>
-
-    <div id="roofingOptions">
-      <label for="material">Choose Roofing Material:</label>
-      <select id="material">
-        <option value="6000">Rooftiles - ₦6000/m²</option>
-        <option value="8500">Romanian rooftiles - ₦8500/m²</option>
-        <option value="8000">Longspan Aluminum 0.55 Normal - ₦8000/m²</option>
-        <option value="11500">Longspan Aluminum 0.55 Complete - ₦11500/m²</option>
-        <option value="9500">Steptiles and Metcoppo Aluminum 0.55 Normal - ₦9500/m²</option>
-        <option value="13000">Steptiles and Metcoppo Aluminum 0.55 Complete - ₦13000/m²</option>
-        <option value="11000">Cameroon Rooftiles - ₦11000/m²</option>
-        <option value="5500">Stone Coated Roofing - ₦5500/m²</option>
-      </select>
-    </div>
-
-    <label for="location">Project Location:</label>
-    <select id="location">
-      <option value="Kontagora">Kontagora (₦600/m²)</option>
-      <option value="Local">Nearby Towns (₦700/m²)</option>
-      <option value="Far">Distant Locations (₦1000/m²)</option>
-    </select>
-
-    <button onclick="calculateCost()">Estimate Cost</button>
-    <button onclick="window.print()">🖨️ Print Estimate</button>
-
-    <div class="output" id="result"></div>
-
-    <div class="footer">
-      <strong>UMMUMED ENTERPRISES</strong><br>
-      Kontagora, Niger State, Nigeria<br>
-      📞 08164316651 , 09048350686 | ✉️ ummumed001@gmail.com
+<header>
+  <div class="brand">
+    <!-- make sure ummed.jpg is in same folder -->
+    <img src="ummed.jpg" alt="Ummumed Logo" id="logoImg">
+    <div>
+      <h1>Ummumed Enterprises</h1>
+      <p>Roofing Cost Estimator â€” Professional Quotations</p>
     </div>
   </div>
+</header>
 
-  <script>
-    const estimateType = document.getElementById('estimateType');
-    const roofingOptions = document.getElementById('roofingOptions');
+<main>
+  <div class="card">
+    <form id="roofForm" autocomplete="off">
+      <div class="grid">
+        <div>
+          <label for="roofType">Roof Type</label>
+          <select id="roofType" required>
+            <option value="">-- Select Roof Type --</option>
+            <option value="Bungalow">Bungalow (4 sides)</option>
+            <option value="Gable">Gable Roof (2 sides)</option>
+          </select>
+        </div>
 
-    estimateType.addEventListener('change', () => {
-      roofingOptions.style.display = estimateType.value === 'roofing' ? 'block' : 'none';
-    });
+        <div>
+          <label for="material">Roofing Material</label>
+          <select id="material" required>
+            <option value="">-- Select Material --</option>
+            <option value="Stone Coated Tiles">Stone Coated Tiles</option>
+            <option value="Aluminium Sheet">Aluminium Sheet</option>
+            <option value="Long Span">Long Span</option>
+            <option value="Metcoppo">Metcoppo</option>
+            <option value="Corrugated Sheet">Corrugated Sheet</option>
+          </select>
+        </div>
 
-    function calculateCost() {
-      const length = parseFloat(document.getElementById('length').value);
-      const width = parseFloat(document.getElementById('width').value);
-      const location = document.getElementById('location').value;
-      const estimate = document.getElementById('estimateType').value;
+        <div>
+          <label for="length">Length (m)</label>
+          <input id="length" type="number" step="0.01" min="0" placeholder="e.g. 10.50" required>
+        </div>
 
-      if (isNaN(length) || isNaN(width)) {
-        document.getElementById('result').innerHTML = "<span>Please enter valid dimensions.</span>";
-        return;
-      }
+        <div>
+          <label for="width">Width (m)</label>
+          <input id="width" type="number" step="0.01" min="0" placeholder="e.g. 8.00" required>
+        </div>
 
-      let area = length * width;
-      let perimeter = 2 * (length + width);
-      let laborRate;
+        <div>
+          <label for="height">Height / Rise (m)</label>
+          <input id="height" type="number" step="0.01" min="0" placeholder="e.g. 1.20" required>
+        </div>
 
-      switch (location) {
-        case 'Kontagora': laborRate = 600; break;
-        case 'Local': laborRate = 700; break;
-        case 'Far': laborRate = 1000; break;
-        default: laborRate = 500;
-      }
+        <div>
+          <label for="price">Material Price per mÂ² (â‚¦)</label>
+          <input id="price" type="number" step="0.01" min="0" placeholder="e.g. 3500.00" required>
+        </div>
 
-      let materialCost = 0;
-      let totalMaterial = 0;
-      let totalLabor = 0;
-      let totalCost = 0;
-      let details = "";
+        <div class="full">
+          <label for="workmanship">Workmanship Cost per mÂ² (â‚¦) â€” editable</label>
+          <input id="workmanship" type="number" step="0.01" min="0" placeholder="e.g. 1500.00" required>
+        </div>
 
-      if (estimate === 'roofing') {
-        materialCost = parseFloat(document.getElementById('material').value);
-        totalMaterial = area * materialCost;
-        totalLabor = area * laborRate;
-        totalCost = totalMaterial + totalLabor;
+        <div class="full controls">
+          <button class="primary" type="submit">Calculate Estimate</button>
+          <button type="button" id="clearBtn" class="ghost">Clear</button>
+          <div style="margin-left:auto; font-size:13px; color:#475569">
+            Note: Area is calculated using slope length (realistic roof area).
+          </div>
+        </div>
+      </div>
+    </form>
 
-        details = `
-          📐 <strong>Total Roof Area:</strong> ${area} m²<br>
-          🧱 <strong>Material Cost:</strong> ₦${totalMaterial.toLocaleString()}<br>
-          👷 <strong>Installation Cost:</strong> ₦${totalLabor.toLocaleString()}<br>
-        `;
-      } else if (estimate === 'ceiling') {
-        materialCost = 5500;
-        totalMaterial = area * materialCost;
-        totalLabor = area * laborRate;
-        totalCost = totalMaterial + totalLabor;
+    <div id="resultBox" class="card" style="margin-top:12px;">
+      <h3 style="margin:6px 0 12px;">Estimation Result</h3>
 
-        details = `
-          📐 <strong>Ceiling Area:</strong> ${area} m²<br>
-          🪵 <strong>Ceiling Material (₦5500/m²):</strong> ₦${totalMaterial.toLocaleString()}<br>
-          👷 <strong>Installation Cost:</strong> ₦${totalLabor.toLocaleString()}<br>
-        `;
-      } else if (estimate === 'parapet') {
-        materialCost = 7000;
-        totalMaterial = perimeter * materialCost;
-        totalLabor = perimeter * laborRate;
-        totalCost = totalMaterial + totalLabor;
+      <div id="resultSummary">
+        <!-- summary inserted here -->
+      </div>
 
-        details = `
-          📏 <strong>Building Perimeter:</strong> ${perimeter} m<br>
-          🪟 <strong>Parapet Material (₦7000/m):</strong> ₦${totalMaterial.toLocaleString()}<br>
-          👷 <strong>Installation Cost:</strong> ₦${totalLabor.toLocaleString()}<br>
-        `;
-      }
+      <div style="display:flex; gap:10px; margin-top:12px;">
+        <button id="downloadBtn" class="primary">Download Quotation (PDF)</button>
+        <button id="copyBtn" class="ghost">Copy Summary</button>
+      </div>
+    </div>
+  </div>
+</main>
 
-      document.getElementById('result').innerHTML = `
-        📍 <strong>Company:</strong> UMMUMED ENTERPRISES<br>
-        🏢 <strong>Location:</strong> Kontagora, Niger State, Nigeria<br>
-        ${details}
-        💰 <strong>Total Estimated Cost:</strong> <span>₦${totalCost.toLocaleString()}</span>
-      `;
+<footer>
+  ðŸ“ž 08164316651  &nbsp;|&nbsp; ðŸ“§ umarmuhammed2548@gmail.com
+</footer>
+
+<!-- jsPDF + autotable -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+<script>
+  // Helper: format currency in Naira
+  function formatN(value) {
+    if (!isFinite(value)) return "0.00";
+    return new Intl.NumberFormat('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value);
+  }
+
+  // Generate quotation number: QUO-YYYYMMDD-XXXX
+  function generateQuotationNumber() {
+    const now = new Date();
+    const y = now.getFullYear().toString();
+    const m = String(now.getMonth()+1).padStart(2,'0');
+    const d = String(now.getDate()).padStart(2,'0');
+    const rnd = Math.floor(1000 + Math.random() * 9000);
+    return `QUO-${y}${m}${d}-${rnd}`;
+  }
+
+  // DOM refs
+  const roofForm = document.getElementById('roofForm');
+  const resultBox = document.getElementById('resultBox');
+  const resultSummary = document.getElementById('resultSummary');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const copyBtn = document.getElementById('copyBtn');
+
+  // store last calc
+  let calcData = null;
+
+  roofForm.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    // Read values
+    const roofType = document.getElementById('roofType').value;
+    const material = document.getElementById('material').value;
+    const length = parseFloat(document.getElementById('length').value) || 0;
+    const width = parseFloat(document.getElementById('width').value) || 0;
+    const height = parseFloat(document.getElementById('height').value) || 0;
+    const price = parseFloat(document.getElementById('price').value) || 0;
+    const workmanshipRate = parseFloat(document.getElementById('workmanship').value) || 0;
+
+    // Slope length: sqrt((width/2)^2 + height^2)
+    const halfWidth = width / 2;
+    const slopeLength = Math.sqrt(Math.pow(halfWidth, 2) + Math.pow(height, 2));
+
+    // Area calculation:
+    // bungalow (4 slopes): area = (length * slopeLength * 2) + (width * slopeLength * 2)
+    // gable (2 slopes): area = length * slopeLength * 2
+    let area = 0;
+    if (roofType === 'Bungalow') {
+      // compute two opposite slopes (length*slopelen) + two other (width*slopelen)
+      area = (length * slopeLength * 2) + (width * slopeLength * 2);
+    } else {
+      // Gable: two slopes along length
+      area = length * slopeLength * 2;
     }
-  </script>
 
+    // Costs
+    const materialCost = area * price;
+    const workmanshipCost = area * workmanshipRate;
+    const totalCost = materialCost + workmanshipCost;
+
+    // Compose data
+    calcData = {
+      date: new Date(),
+      quotationNo: generateQuotationNumber(),
+      roofType, material, length, width, height,
+      slopeLength, area, price, materialCost, workmanshipRate, workmanshipCost, totalCost
+    };
+
+    // Render result summary
+    resultSummary.innerHTML = `
+      <div style="margin-bottom:8px; display:flex; gap:10px; align-items:center;">
+        <div style="flex:1">
+          <div style="font-size:13px; color:#334155">Quotation No: <strong>${calcData.quotationNo}</strong></div>
+          <div style="font-size:13px; color:#334155">Date: <strong>${calcData.date.toLocaleDateString()}</strong></div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:14px; color:${'var(--deep-blue)'}"><strong style="font-size:16px">Total: â‚¦${formatN(calcData.totalCost)}</strong></div>
+        </div>
+      </div>
+
+      <div class="summary-row"><div>Roof Type</div><div><strong>${roofType}</strong></div></div>
+      <div class="summary-row"><div>Material</div><div>${material}</div></div>
+      <div class="summary-row"><div>Total Roof Area (mÂ²)</div><div>${calcData.area.toFixed(2)} mÂ²</div></div>
+      <div class="summary-row"><div>Material Unit Price (â‚¦/mÂ²)</div><div>â‚¦${formatN(calcData.price)}</div></div>
+      <div class="summary-row"><div>Material Cost (â‚¦)</div><div>â‚¦${formatN(calcData.materialCost)}</div></div>
+      <div class="summary-row"><div>Workmanship Rate (â‚¦/mÂ²)</div><div>â‚¦${formatN(calcData.workmanshipRate)}</div></div>
+      <div class="summary-row"><div>Workmanship Cost (â‚¦)</div><div>â‚¦${formatN(calcData.workmanshipCost)}</div></div>
+      <div style="margin-top:8px; padding-top:8px; border-top:1px solid #eef3fb;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-weight:700">Grand Total</div>
+          <div style="font-weight:800; font-size:18px; color:var(--deep-blue)">â‚¦${formatN(calcData.totalCost)}</div>
+        </div>
+      </div>
+    `;
+
+    resultBox.style.display = 'block';
+    // scroll to result on small screens
+    setTimeout(()=> resultBox.scrollIntoView({behavior:'smooth', block:'center'}), 150);
+  });
+
+  clearBtn.addEventListener('click', () => {
+    roofForm.reset();
+    resultBox.style.display = 'none';
+    calcData = null;
+  });
+
+  copyBtn.addEventListener('click', () => {
+    if (!calcData) return alert('Please calculate an estimate first.');
+    // Build plain-text summary
+    const txt = [
+      `Quotation: ${calcData.quotationNo}`,
+      `Date: ${calcData.date.toLocaleDateString()}`,
+      `Roof Type: ${calcData.roofType}`,
+      `Material: ${calcData.material}`,
+      `Area (mÂ²): ${calcData.area.toFixed(2)}`,
+      `Material Cost: â‚¦${formatN(calcData.materialCost)}`,
+      `Workmanship Cost: â‚¦${formatN(calcData.workmanshipCost)}`,
+      `Total: â‚¦${formatN(calcData.totalCost)}`
+    ].join('\n');
+    navigator.clipboard?.writeText(txt).then(()=> alert('Summary copied to clipboard.'));
+  });
+
+  // PDF generation
+  downloadBtn.addEventListener('click', () => {
+    if (!calcData) return alert('Please calculate an estimate first.');
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+
+    const leftMargin = 40;
+    const pageWidth = doc.internal.pageSize.getWidth();
+
+    // Header: logo + company details
+    const logo = new Image();
+    logo.src = 'ummed.jpg'; // must be in same folder
+    logo.onload = () => {
+      // draw logo (keep small)
+      const logoWidth = 80;
+      const logoHeight = (logo.height / logo.width) * logoWidth;
+      doc.addImage(logo, 'JPEG', pageWidth - leftMargin - logoWidth, 40, logoWidth, logoHeight);
+
+      doc.setFontSize(18);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Ummumed Enterprises', leftMargin, 60);
+
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Roofing Cost Quotation', leftMargin, 82);
+      doc.setFontSize(10);
+      doc.text(`Quotation No: ${calcData.quotationNo}`, leftMargin, 100);
+      doc.text(`Date: ${calcData.date.toLocaleDateString()}`, leftMargin + 220, 100);
+      doc.setFontSize(10);
+      doc.text('ðŸ“ž 08164316651   |   ðŸ“§ umarmuhammed2548@gmail.com', leftMargin, 118);
+
+      // horizontal line
+      doc.setLineWidth(0.5);
+      doc.line(leftMargin, 132, pageWidth - leftMargin, 132);
+
+      // Table using autotable
+      const tableTop = 150;
+      doc.autoTable({
+        head: [['Description', 'Unit Price (â‚¦)', 'Quantity (mÂ²)', 'Amount (â‚¦)']],
+        body: [
+          [`${calcData.material} â€” ${calcData.roofType}`, formatN(calcData.price), calcData.area.toFixed(2), formatN(calcData.materialCost)],
+          ['Workmanship', formatN(calcData.workmanshipRate), calcData.area.toFixed(2), formatN(calcData.workmanshipCost)]
+        ],
+        startY: tableTop,
+        styles: { halign: 'right' },
+        headStyles: { fillColor: [11,59,102], textColor: 255, fontStyle: 'bold' },
+        columnStyles: {
+          0: { halign: 'left', cellWidth: 240 },
+          1: { halign: 'right' },
+          2: { halign: 'right' },
+          3: { halign: 'right' }
+        },
+        theme: 'grid'
+      });
+
+      // Grand total block
+      const finalY = doc.lastAutoTable.finalY + 18;
+      doc.setFontSize(12);
+      doc.setFont('helvetica','bold');
+      doc.text('Grand Total:', leftMargin, finalY + 6);
+      doc.setFontSize(14);
+      doc.setTextColor(11,59,102);
+      doc.text(`â‚¦ ${formatN(calcData.totalCost)}`, pageWidth - leftMargin - 90, finalY + 6, { align: 'right' });
+
+      // Footer note / signature
+      doc.setDrawColor(220);
+      doc.setLineWidth(0.4);
+      doc.line(leftMargin, finalY + 28, pageWidth - leftMargin, finalY + 28);
+
+      doc.setFontSize(10);
+      doc.setTextColor(70,80,100);
+      doc.text('Terms: Prices exclude VAT and delivery unless stated. Quotation valid 14 days from date above.', leftMargin, finalY + 48, { maxWidth: pageWidth - leftMargin * 2 });
+
+      // Signature placeholder
+      doc.setFontSize(11);
+      doc.text('Authorized by: ____________________', leftMargin, finalY + 92);
+      doc.save(`${calcData.quotationNo}_Ummumed_Quotation.pdf`);
+    };
+
+    logo.onerror = () => {
+      // fallback if logo fails
+      doc.setFontSize(18);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Ummumed Enterprises', leftMargin, 60);
+      doc.setFontSize(12);
+      doc.text('Roofing Cost Quotation', leftMargin, 82);
+      doc.text(`Quotation No: ${calcData.quotationNo}`, leftMargin, 100);
+      doc.text(`Date: ${calcData.date.toLocaleDateString()}`, leftMargin + 220, 100);
+      doc.text('ðŸ“ž 08164316651   |   ðŸ“§ umarmuhammed2548@gmail.com', leftMargin, 118);
+
+      doc.setLineWidth(0.5);
+      doc.line(leftMargin, 132, pageWidth - leftMargin, 132);
+
+      doc.autoTable({
+        head: [['Description', 'Unit Price (â‚¦)', 'Quantity (mÂ²)', 'Amount (â‚¦)']],
+        body: [
+          [`${calcData.material} â€” ${calcData.roofType}`, formatN(calcData.price), calcData.area.toFixed(2), formatN(calcData.materialCost)],
+          ['Workmanship', formatN(calcData.workmanshipRate), calcData.area.toFixed(2), formatN(calcData.workmanshipCost)]
+        ],
+        startY: 150,
+        theme: 'grid'
+      });
+
+      const finalY = doc.lastAutoTable.finalY + 18;
+      doc.setFontSize(12);
+      doc.setFont('helvetica','bold');
+      doc.text('Grand Total:', leftMargin, finalY + 6);
+      doc.setFontSize(14);
+      doc.setTextColor(11,59,102);
+      doc.text(`â‚¦ ${formatN(calcData.totalCost)}`, pageWidth - leftMargin - 90, finalY + 6, { align: 'right' });
+
+      doc.save(`${calcData.quotationNo}_Ummumed_Quotation.pdf`);
+    };
+  });
+</script>
 </body>
 </html>
